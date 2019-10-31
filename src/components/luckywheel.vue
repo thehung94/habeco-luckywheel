@@ -14,9 +14,15 @@
                         </div>
                     </div>
                 </div>
+                
             </div>
+            
         </div>
+      <div class="control">
+        <button class="btn btn-wheel" type="button" v-on:click="rotating()">Quay</button>
     </div>
+    </div>
+    
 </template>
 <script>
 export default {
@@ -60,7 +66,8 @@ export default {
       rotate_transition: "transform 6s ease-in-out",
       rotate_transition_pointer: "transform 12s ease-in-out",
       click_flag: true,
-      index:  0
+      index:  0,
+      audio: new Audio(require('../assets/img/habeco/wheel_rolling.mp3'))
     };
   },
   created() {
@@ -76,7 +83,15 @@ export default {
       this.rotating();
     },
     rotating() {
+
+      
+
       if (!this.click_flag) return;
+
+      if (this.audio.paused) {
+        this.audio.play();  
+      }
+      
       var type = 0;
       var during_time = 0;
       var random = Math.floor(Math.random() * 7);
@@ -99,12 +114,16 @@ export default {
         setTimeout(function() {
           that.click_flag = true;
           that.game_over();
-        }, 20000);
+        }, 8000);
       } else {
         //
       }
     },
     game_over() {
+      if (this.audio.played) {
+        this.audio.pause();  
+      }
+      
       this.toast_control = false;
       this.hasPrize = this.prize_list[this.index].isPrize
     },
@@ -123,17 +142,18 @@ export default {
   width: 100%;
   height: 19rem;
   background-size: 100%;
+  overflow: hidden;
 }
 .wheel-main {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding-top: 1rem;
+  overflow: hidden;
 }
 .wheel-bg {
-  width: 15rem;
-  height: 15rem;
+  width: 20rem;
+  height: 20rem;
   background: url("../assets/img/habeco/wheel_list.png") no-repeat center top;
   background-size: 100%;
   color: #fff;
@@ -146,15 +166,15 @@ export default {
 }
 .wheel-pointer-box {
   position: absolute;
-  top: 59%;
-  left: 50%;
+  top: 56%;
+  left: 50.3%;
   z-index: 100;
   transform: translate(-50%, -60%);
   width: 5rem;
   height: 7.8rem;
 }
 .wheel-pointer {
-  width: 5rem;
+  width: 4.8rem;
   height: 7.8rem;
   background: url("../assets/img/habeco/pointer.png") no-repeat center top;
   background-size: 100%;
@@ -175,8 +195,8 @@ export default {
   z-index: 2;
 }
 .prize-list .prize-item:first-child {
-  top: 0;
-  left: 6rem;
+  top: 3rem;
+  left: 8rem;
   transform: rotate(24deg);
 }
 .prize-list .prize-item:nth-child(2) {
@@ -185,33 +205,33 @@ export default {
   transform: rotate(67deg);
 }
 .prize-list .prize-item:nth-child(3) {
-  top: 4.3rem;
-  left: 7.6rem;
+  top: 6.4rem;
+  left: 9.8rem;
   transform: rotate(-250deg);
 }
 .prize-list .prize-item:nth-child(4) {
-  top: 5.9rem;
-  left: 5.8rem;
+  top: 8rem;
+  left: 7.8rem;
   transform: rotate(-206deg);
 }
 .prize-list .prize-item:nth-child(5) {
-  top: 6.2125rem;
-  left: 3.4rem;
+  top: 8rem;
+  left: 6.3rem;
   transform: rotate(-160deg);
 }
 .prize-list .prize-item:nth-child(6) {
-  top: 4.35rem;
-  left: 1.5rem;
+  top: 6.5rem;
+  left: 4.5rem;
   transform: rotate(-111deg);
 }
 .prize-list .prize-item:nth-child(7) {
-  top: 1.8rem;
-  left: 1.8rem;
+  top: 4.4rem;
+  left: 4.8rem;
   transform: rotate(-69deg);
 }
 .prize-list .prize-item:nth-child(8) {
-  top: 0;
-  left: 3.5rem;
+  top: 2.9rem;
+  left: 6rem;
   transform: rotate(-20deg);
 }
 .prize-item {
@@ -376,6 +396,29 @@ export default {
   height: 2rem;
   background: url("../assets/img/close_store.png") no-repeat center top;
   background-size: 100%;
+}
+.control {
+  text-align: center;
+}
+button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 5px;
+}
+
+.btn.btn-wheel {
+  background-color: white; 
+  color: white; 
+  border: 4px solid #008CBA;
+  background: border-box;
 }
 </style>
 
